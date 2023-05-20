@@ -1,0 +1,94 @@
+#include <bits/stdc++.h>
+#include <stack>
+#include <cassert>
+/*                     A.Nasser                      */
+using namespace std;
+//كلاس من النوع (نووود)
+class Node {
+public:
+    int data;
+    Node* next; // بوينتر من النوع نووود هيشاور علي النيكست في اللينكد ليست
+};
+
+
+class Queue {
+private:
+    Node* front_ptr; // بوينتر الفرونت من النوع نووود
+    Node* rear_ptr; // بووينتر الريير من النوع نوود
+    int size; // متغير هيخزن الحجم
+public:
+    // كونستراكتور عشان احط قيم انيشيال في الفرونت والريير والحجم
+    Queue() {
+        front_ptr = NULL;
+        rear_ptr = NULL;
+        size = 0;
+    }
+
+    // فانكشن بتشوف الكيووو فاضي او لا
+    bool is_empty() {
+        return front_ptr == NULL; // كده لو الفرونت بي (ناال) هيرجع تروو غير كده فووولس يعني مش فارغ
+    }
+
+    // فانشكن ادخال القيم
+    void enqueue(int data) {
+        Node* new_node = new Node(); // كرييت نيووو نووود وعشان اخليه ديناميك سايز
+        new_node->data = data; // بخلي النيو نووود بتاع الداتا يساوي الداتا
+        new_node->next = NULL; // جعل النيكست بي (ناال)
+        if (is_empty()) { // بشوف لو فاضي او لا
+            front_ptr = new_node;
+        }
+        else {
+            rear_ptr->next = new_node;
+        }
+        rear_ptr = new_node;
+        size++; //بزود الحجم
+    }
+
+    // فانكشن الحذف في الكيوووو
+    int dequeue() {
+        if (is_empty()) { // بشوف لو فاضي او لا
+            cout<<"Queue is empty can not to pop element ...!"; // لو فاضي مش هقدر احذف حاجة
+        }
+        else {
+            Node* temp = front_ptr; // بوينتر جديد واخزن فيه قيمة الفرونت لو قبل ما احذف
+            int data = temp->data; // بكرييت متغير جديد بساويه بالداتا اللي جوه التيمب
+            front_ptr = front_ptr->next; // بخلي النيكست نووود تساوي الفرونت
+            delete temp; // بحذف التيمب
+            size--; // بنقص الحجم
+            return data; // ممكن معملهاش لو عاوز احذف بس
+        }
+    }
+
+    // فانكشن بتشوف الحجم بعد الاضافة والحذف
+    int get_size() {
+        return size;
+    }
+
+    // فانكشن بتعرض العناصر اللي عندي
+    void display() {
+        Node* current = front_ptr; // بعرف بوينتر جديد من النوع نووود بساويه بالفرونت
+        while (current != NULL) { // دي لووووب لحد اخر عنصر اللي هو الفرونت بس مساويه (بالكارانت)
+            cout << current->data << " "; // رعض الداتا اللي جواه
+            current = current->next; // بحرك النيكست نووود
+        }
+        cout << endl;
+    }
+};
+
+// فانكشن المييين
+int main() {
+    Queue q; // كريييت اوبجيكت من النوع الكلاس كيوووو
+    q.enqueue(10); // ادخال عناصر
+    q.enqueue(20);
+    q.enqueue(30);
+
+    q.display(); // طباعة العناصر
+
+    q.dequeue(); // حذف العناصر
+    q.dequeue();
+    q.dequeue();
+    q.dequeue();
+
+    q.display(); // طباعة العناصر
+
+}

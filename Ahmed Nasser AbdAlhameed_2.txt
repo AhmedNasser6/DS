@@ -1,0 +1,178 @@
+/*وَمَا رَمَيْتَ إِذْ رَمَيْتَ وَلَكِنَّ اللَّهَ رَمَى وَلِيُبْلِيَ الْمُؤْمِنِينَ مِنْهُ بَلَاءً حَسَنًا إِنَّ اللَّهَ سَمِيعٌ عَلِيمٌ*/
+
+#include         <bits/stdc++.h>
+#define     ll                       long long
+#define     ld                       long double
+#define     ft                       first
+#define     sd                       second
+#define     ed                       '\n'
+#define     pi                       3.141592653590
+#define     sz(x)                    x.size()
+#define     rall(x)                  x.rbegin(), x.rend()
+#define     fixed(x)              fixed<<setprecision(x)
+#define     tt                    int t;cin>>t;while(t--)
+#define Nass ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+/*                     A.Nasser                      */
+//////////////////////////Infix To Postfix///////////////////////////////////
+using namespace std;
+int priority(char c){
+    if(c=='-'||c=='+')
+        return 1;
+    else if(c=='*'||c=='/')
+        return 2;
+    else if(c=='^')
+        return 3;
+    else
+        return 0;
+}
+string infix_to_postfix(string exp){
+
+stack<char>stk;
+string output = "";
+for(int i=0;i<exp.size();i++){
+    if(exp[i]==' ')continue;
+    if(isdigit(exp[i])||isalpha(exp[i]))
+    {
+        if(isdigit(exp[i+1])){
+            if(i!=0){
+                output+=' ';
+            }
+            output+=exp[i];
+        }
+
+
+        else
+        output +=exp[i];
+    }
+
+    else if(exp[i]=='(')
+                stk.push('(');
+    else if(exp[i]==')'){
+        while(stk.top()!='('){
+                output +=stk.top();
+                stk.pop();
+              }
+              stk.pop();
+    }
+              else
+                {
+                    while(!stk.empty()&&priority(exp[i])<=priority(stk.top()))
+                        {
+                    output +=stk.top();
+              stk.pop();
+              }
+                stk.push(exp[i]);
+              }
+}
+    while(!stk.empty()){
+        output +=stk.top();
+        stk.pop();
+    }
+return output;
+}
+
+int main(){
+string x;
+cin>>x;
+cout<<infix_to_postfix(x)<<"\n";
+string s=infix_to_postfix(x);
+
+
+return 0;
+
+}
+
+//////////////////////////////infix to prefix//////////////////////////////////////////////////////////////////////
+#include<bits/stdc++.h>
+#include <iostream>
+using namespace std;
+int priorty(char c)
+{
+    if(c=='+'||c=='-')
+        return 1;
+    else if(c=='*'||c=='/')
+    return 2;
+    else if(c=='^')
+    return 3;
+    else
+    return 0;
+}
+string infix_prefix(string exp)
+{     reverse(exp.begin(),exp.end());
+   stack<char>s;
+   string output=" ";
+   for (int i=0;i<exp.size();i++)
+   {
+       if(exp[i]==' ')
+        continue;
+   if(isdigit(exp[i]))
+   {
+        output+=exp[i];
+   }
+   else if(exp[i]=='{')
+    s.push(exp[i]);
+   else if(exp[i]=='}')
+   {
+       while(s.top()!='{')
+       {
+           output+=s.top();
+           s.pop();
+       }
+       s.pop();
+   }
+   else
+   {
+       while(!s.empty()&&priorty(exp[i])<priorty(s.top()))
+       {
+           output+=s.top();
+             s.pop();
+       }
+       s.push(exp[i]);
+   }
+
+   }
+   while(!s.empty())
+   {
+       output+=s.top();
+       s.pop();
+   }  reverse(output.begin(),output.end());
+     return (output);
+}
+int main()
+{
+     string e ;
+    cout << "Enter Infix expression :\n";
+    cin >> e;
+  string prefix = infix_prefix(e);
+    cout << "prefix : " << prefix;
+return 0;
+}
+
+
+//////////////////////////////postfix to prefix////////////////////////////////////////////////////////////////////
+ bool isOperator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
+}
+
+string postfixToPrefix(string postfix) {
+    stack<string> s;
+
+    for (int i = 0; i < postfix.length(); i++) {
+        if (isOperator(postfix[i])) {
+            string op1 = s.top();
+            s.pop();
+            string op2 = s.top();
+            s.pop();
+            string prefix = postfix[i] + op2 + op1;
+            s.push(prefix);
+        }
+        else {
+            string operand(1, postfix[i]);
+            s.push(operand);
+        }
+    }
+
+    return s.top();
+}
+

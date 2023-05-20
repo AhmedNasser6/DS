@@ -1,0 +1,114 @@
+#include <iostream>
+#include <omp.h>
+using namespace std;
+class linkedlist{
+
+struct Node{
+int item;
+Node *next;
+
+};
+Node *first;
+Node *last;
+int length;
+public:
+    linkedlist(){
+    first=last=NULL;
+    length=0;
+    }
+    bool isempty(){
+    return length==0;
+    }
+    void insertFirst(int element){
+    Node *newnode =new Node;
+    newnode->item=element;
+    if(length==0){
+        first=last=newnode;
+        newnode->next=NULL;
+    }
+    else{
+        newnode->next=first;
+        first=newnode;
+    }
+    length++;
+    }
+     void insertLast(int element){
+    Node *newnode =new Node;
+    newnode->item=element;
+    if(length==0){
+        first=last=newnode;
+        newnode->next=NULL;
+    }
+    else{
+        last->next=newnode;
+        newnode->next=NULL;
+        last=newnode;
+    }
+    length++;
+    }
+
+ void insertAtPos(int pos,int element){
+    if(pos<0||pos>length){
+        cout<< "Out of Range";}
+    else{
+    Node *newnode =new Node;
+    newnode->item=element;
+    if(pos==0){
+        insertFirst(element);
+    }
+    else if(pos==length){
+        insertLast(element);
+    }
+    else{
+        Node *cur=first;
+
+        for(int i=1;i<pos;i++){
+            cur=cur->next;
+            }
+
+        newnode->next=cur->next;
+        cur->next=newnode;
+    }
+    length++;
+    }
+
+ }
+
+void print(){
+Node*cur=first;
+while(cur!=NULL){
+    cout<<cur->item<<" ";
+    cur=cur->next;
+}
+
+}
+
+void Reverse(){
+ Node*pre,*next,*cur;
+ pre=NULL;
+ cur=first;
+ next=cur->next;
+ while(next!=NULL){
+    next=cur->next;
+    cur->next=pre;
+    pre=cur;
+    cur=next;
+
+
+ }
+ first=pre;
+ }
+
+};
+int main() {
+linkedlist li;
+li.insertFirst(10);
+li.insertLast(30);
+li.insertLast(40);
+li.insertAtPos(1,20);
+li.insertFirst(0);
+li.insertLast(50);
+li.Reverse();
+li.print();
+}
+

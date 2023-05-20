@@ -1,0 +1,139 @@
+#include <iostream>
+using namespace std;
+struct Node {
+    int data;
+    Node* prev;
+    Node* next;
+};
+
+class Dequeue {
+
+    Node* front;
+    Node* rear;
+
+public:
+    Dequeue() {
+        front = NULL;
+        rear = NULL;
+    }
+
+    bool isEmpty() {
+        return (front == NULL);
+    }
+
+    void insertFront(int data) {
+        Node* newNode = new Node;
+        newNode->data = data;
+        newNode->prev = NULL;
+
+        if (isEmpty()) {
+            newNode->next = NULL;
+            front = rear = newNode;
+        } else {
+            newNode->next = front;
+            front->prev = newNode;
+            front = newNode;
+        }
+    }
+
+    void insertRear(int data) {
+        Node* newNode = new Node;
+        newNode->data = data;
+        newNode->next = nullptr;
+
+        if (isEmpty()) {
+            newNode->prev = nullptr;
+            front = rear = newNode;
+        } else {
+            newNode->prev = rear;
+            rear->next = newNode;
+            rear = newNode;
+        }
+    }
+
+    void deleteFront() {
+        if (isEmpty()) {
+            std::cout << "Dequeue is empty. Cannot delete from front." << endl;
+        } else {
+            Node* temp = front;
+            front = front->next;
+
+            if (front != nullptr) {
+                front->prev = nullptr;
+            } else {
+                rear = nullptr;
+            }
+
+            delete temp;
+        }
+    }
+
+    void deleteRear() {
+        if (isEmpty()) {
+            std::cout << "Dequeue is empty. Cannot delete from rear." << endl;
+        } else {
+            Node* temp = rear;
+            rear = rear->prev;
+
+            if (rear != nullptr) {
+                rear->next = nullptr;
+            } else {
+                front = nullptr;
+            }
+
+            delete temp;
+        }
+    }
+
+    int getFront() {
+        if (isEmpty()) {
+           cout << "Dequeue is empty." << endl;
+            return -1; // or throw an exception
+        } else {
+            return front->data;
+        }
+    }
+
+    int getRear() {
+        if (isEmpty()) {
+            cout << "Dequeue is empty." <<endl;
+            return -1; // or throw an exception
+        } else {
+            return rear->data;
+        }
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Dequeue is empty." << endl;
+        } else {
+            Node* current = front;
+            while (current != nullptr) {
+                cout << current->data << " ";
+                current = current->next;
+            }
+            cout << std::endl;
+        }
+    }
+};
+
+int main() {
+    Dequeue dq;
+
+    dq.insertFront(2);
+    dq.insertFront(1);
+    dq.insertRear(3);
+    dq.insertFront(4);
+
+    dq.display(); // Output: 1 2 3
+
+     cout << "Front: " << dq.getFront() << endl; // Output: Front: 1
+     cout << "Rear: " << dq.getRear() << endl;   // Output: Rear: 3
+
+    dq.deleteFront();
+    dq.deleteRear();
+
+    dq.display(); // Output: 2
+
+    return 0;
+}

@@ -1,0 +1,38 @@
+/*وَمَا رَمَيْتَ إِذْ رَمَيْتَ وَلَكِنَّ اللَّهَ رَمَى وَلِيُبْلِيَ الْمُؤْمِنِينَ مِنْهُ بَلَاءً حَسَنًا إِنَّ اللَّهَ سَمِيعٌ عَلِيمٌ*/
+
+#include         <bits/stdc++.h>
+#define     ll                       long long
+#define     ld                       long double
+#define     ft                       first
+#define     sd                       second
+#define     ed                       '\n'
+#define     pi                       3.141592653590
+#define     sz(x)                    x.size()
+#define     rall(x)                  x.rbegin(), x.rend()
+#define     fixed(x)              fixed<<setprecision(x)
+#define     tt                    int t;cin>>t;while(t--)
+#define Nass ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+/*                     A.Nasser                      */
+using namespace std;
+void Tower(int n,char source,char aux,char dest)
+{
+
+if(n>=1){
+Tower(n-1,source,dest,aux);
+cout<<n<<" Disk move from "<<source<<" to "<<dest<<"\n";
+Tower(n-1,aux,source,dest);
+
+        }
+
+}
+
+
+int main(){
+int e;
+cout<<"Enter the Number of Disks : ";
+cin>>e;
+cout<<"\n";
+Tower(e,'A','B','C');
+return 0;
+
+}
